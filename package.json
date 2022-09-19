@@ -1,0 +1,16 @@
+{
+  "name": "ideal-credit",
+  "version": "0.1.0",
+  "description": "Helper functions for www.idealcredit.md",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "remove",
+    "array",
+    "duplicates"
+  ],
+  "author": "Nicolae Cojuhari <nicojuhari@gmail.com>",
+  "license": "ISC"
+}
