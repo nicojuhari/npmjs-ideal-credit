@@ -73,7 +73,7 @@ const createGrafic = (
             totalInsertedRates = totalInsertedRates + creditRata;
         }
         if (totalInsertedRates > Number(sum)) {
-            alert("Suma Total Lunară este prea mare, incercati o suma mai mica");
+            alert("Suma Totală Lunar este prea mare, încercați o sumă mai mică!");
             return [];
         }
         //0
@@ -192,7 +192,7 @@ const run = (fx, fdx, guess) => {
     return guess;
 };
 
-module.exports = {
+export {
     createGrafic,
     calcDAE,
     todayDate,
