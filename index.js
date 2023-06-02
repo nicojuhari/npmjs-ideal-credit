@@ -1,22 +1,22 @@
-const createGrafic = (
+const createGrafic = ({
     sum,
     period,
     interest,
-    {
-        startDate = formatDate(new Date()),
-        creditRatesToPay = 0,
-        desiredCreditRate = 0,
-        desiredTotalRate = 0,
-        desiredStartRate = 0,
-        desiredStartDateToPay = "",
-    } = {}
-) => {
+    startDate = formatDate(new Date()),
+    creditRatesToPay = 0,
+    desiredCreditRate = 0,
+    desiredTotalRate = 0,
+    desiredStartRate = 0,
+    desiredStartDateToPay = "",
+} = {}) => {
     let rata = {};
     let grafic = [];
     let termenCredit = 0;
     let totalInsertedRates = 0;
     let creditRata = 0;
     let totalRata = 0;
+    let interestRata = 0;
+
     desiredCreditRate = Number(desiredCreditRate);
     desiredTotalRate = Number(desiredTotalRate);
     // calc in cite luni se achita credit
@@ -39,15 +39,19 @@ const createGrafic = (
         let nrRata = desiredStartRate + i + 1;
         //data rata - 1
         let dataRata = "";
+        
         if (desiredStartDateToPay) {
             dataRata = formatDate(addMonths(i, desiredStartDateToPay));
         } else {
             dataRata = formatDate(addMonths(i + 1, startDate));
         }
         //interest din sold - 3
-        let interestRata = Math.round(
-            (Number(interest) * (Number(sum) - totalInsertedRates)) / 100
-        );
+        if(Number(interest) > 0) {
+            interestRata = Math.round(
+                (Number(interest) * (Number(sum) - totalInsertedRates)) / 100
+            );
+        }
+
         // if custom date exist , on first month
         if (desiredStartDateToPay && desiredStartDateToPay != startDate && i == 0) {
             let diffDays = daysBetween(startDate, dataRata);
@@ -73,9 +77,10 @@ const createGrafic = (
             totalInsertedRates = totalInsertedRates + creditRata;
         }
         if (totalInsertedRates > Number(sum)) {
-            alert("Suma Totală Lunar este prea mare, încercați o sumă mai mică!");
+            console.log("totalInsertedRates > Number(sum)");
             return [];
         }
+
         //0
         rata.nr_rata = nrRata;
         //1
@@ -192,10 +197,4 @@ const run = (fx, fdx, guess) => {
     return guess;
 };
 
-export {
-    createGrafic,
-    calcDAE,
-    todayDate,
-    formatDate,
-    addMonths,
-}
+export { createGrafic, calcDAE, todayDate, formatDate, addMonths };
