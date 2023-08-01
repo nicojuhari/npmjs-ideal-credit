@@ -8,6 +8,7 @@ const createGrafic = ({
     desiredTotalRate = 0,
     desiredStartRate = 0,
     desiredStartDateToPay = "",
+    monthWithoutInterest = 0,
 } = {}) => {
     let rata = {};
     let grafic = [];
@@ -27,7 +28,7 @@ const createGrafic = ({
     } else {
         creditRata = Math.round(sum / termenCredit);
     }
-    for (var i = 0; i < Number(period); i++) {
+    for (let i = 0; i < Number(period); i++) {
         rata = {
             nr_rata: 0,
             data_rata: "",
@@ -39,14 +40,14 @@ const createGrafic = ({
         let nrRata = desiredStartRate + i + 1;
         //data rata - 1
         let dataRata = "";
-        
+
         if (desiredStartDateToPay) {
             dataRata = formatDate(addMonths(i, desiredStartDateToPay));
         } else {
             dataRata = formatDate(addMonths(i + 1, startDate));
         }
         //interest din sold - 3
-        if(Number(interest) > 0) {
+        if (Number(interest) > 0) {
             interestRata = Math.round(
                 (Number(interest) * (Number(sum) - totalInsertedRates)) / 100
             );
@@ -60,6 +61,12 @@ const createGrafic = ({
                 interestRata = Math.round((interestRata / 30.5) * diffDays);
             }
         }
+
+        // if we have month without interest
+        if (+monthWithoutInterest > 0 && i < +monthWithoutInterest) {
+            interestRata = 0;
+        }
+
         //calc the credit rata, based on total rata dorita
         if (desiredTotalRate > 0 && desiredTotalRate >= interestRata) {
             creditRata = desiredTotalRate - interestRata;
